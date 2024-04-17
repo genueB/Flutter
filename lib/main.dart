@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:toonflix/services/api_service.dart';
 
 import 'screens/home_screen.dart';
 
 void main() {
+  ApiService().getTodaysToons();
   runApp(const MyApp());
 }
 

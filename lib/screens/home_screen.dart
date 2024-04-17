@@ -51,7 +51,7 @@ import 'package:toonflix/services/api_service.dart';
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
 
-  Future<List<WebtoonModel>> webtoons = ApiService.getTodaysToons();
+  final Future<List<WebtoonModel>> webtoons = ApiService.getTodaysToons();
 
   @override
   Widget build(BuildContext context) {
@@ -74,9 +74,38 @@ class HomeScreen extends StatelessWidget {
         builder: (context, snapshot) {
           // snapshot: future의 상태값
           if (snapshot.hasData) {
-            return const Text('there is data');
+            // 기본적인 ListView. 최적화가 되어있지 않아서 메모리 낭비가 심함
+            // return ListView(
+            //   children: [
+            //     for (var webtoon in snapshot.data!) Text(webtoon.title)
+            //   ],
+            // );
+
+            // ListView 최적화
+            // return ListView.builder(
+            //   scrollDirection: Axis.horizontal,
+            //   itemCount: snapshot.data!.length,
+            // itemBuilder: (context, index) {
+            //   var webtoon = snapshot.data![index];
+            //   return Text(webtoon.title);
+            // },
+            // );
+
+            return ListView.separated(
+              scrollDirection: Axis.vertical,
+              itemCount: snapshot.data!.length,
+              itemBuilder: (context, index) {
+                var webtoon = snapshot.data![index];
+                return Text(webtoon.title);
+              },
+              separatorBuilder: (context, index) => const SizedBox(
+                height: 20,
+              ),
+            );
           } else {
-            return const Text('Loading...');
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
           }
         },
       ),

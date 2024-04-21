@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:toonflix/screens/detail_screen.dart';
 
 class Webtoon extends StatelessWidget {
